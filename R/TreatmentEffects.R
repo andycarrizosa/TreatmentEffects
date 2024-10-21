@@ -25,7 +25,7 @@ RegModel<-function(data, treats="", DV="", model=c("linear", "logit"),
     return(reg)
 }
 
-SimModel<-function(data, reg, treats="", subgroups="",sims=10000,controlgroup=T, comb="comb"){
+SimModel<-function(data, reg, treats="", subgroups="",sims=10000, comb="comb"){
         treatlist<-list()
         treatlist[[treats]]<-data[treats] %>% unlist %>% unique
 
@@ -204,8 +204,8 @@ TreatmentEffects<-function(data, treats="", DV="", model=c("linear", "logit"),
         # plot the results of the simulations
         gg<-PlotEffects(clean_df,treats,DV,model,controls,subgroups,sims)
         #detail specification so people can easily report what they did
-        specification<-c("treats", "DV", "model", "controls", "subgroups","sims", "controlgroup","function",
-                         treats, DV, model, paste0(controls, collapse=", "), subgroups, sims, controlgroup,"OneClarifyComb") %>% matrix(ncol=2, nrow=8)
+        specification<-c("treats", "DV", "model", "controls", "subgroups","sims","function",
+                         treats, DV, model, paste0(controls, collapse=", "), subgroups, sims,"OneClarifyComb") %>% matrix(ncol=2, nrow=8)
         colnames(specification)<-c("argument", "user-specified")
 
         out<-list("reg"=reg, "clean_df"=clean_df, "specification"=specification, "gg"=gg)
