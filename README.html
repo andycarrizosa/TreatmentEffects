@@ -367,7 +367,61 @@ bootstrapping method developed by Gary King.</p>
 this is your first time using TreatmentEffects please run the following
 code in your R console before proceeding:</p>
 <pre><code>install.packages(c(&quot;stringr&quot;, &quot;Hmisc&quot;, &quot;ggplot2&quot;, &quot;clarify&quot;, &quot;tidyverse&quot;, &quot;RColorBrewer&quot;,&quot;gtools&quot;,
-&quot;doParallel&quot;, &quot;foreach&quot;))</code></pre>
+&quot;doParallel&quot;, &quot;foreach&quot;, &quot;remotes&quot;))</code></pre>
+</div>
+<div id="installing-treatmenteffects" class="section level2">
+<h2>Installing TreatmentEffects</h2>
+<p>TreatmentEffects can be installed as an R package using the following
+code:</p>
+<pre><code>library(remotes)
+install_github(&quot;https://github.com/andycarrizosa/TreatmentEffects&quot;)</code></pre>
+<p>After that first installation it can be loaded as a regular R package
+for subsequent uses:</p>
+<pre><code>library(TreatmentEffects)</code></pre>
+</div>
+<div id="function-arguments" class="section level2">
+<h2>Function Arguments</h2>
+<p>TreatmentEffects has the following arguments:</p>
+<pre><code>TreatmentEffects(data, treats = &quot;&quot;, DV = &quot;&quot;, model = c(&quot;linear&quot;, &quot;logit&quot;), 
+controls = &quot;&quot;, subgroups = &quot;&quot;, sims = 10000, comb = &quot;perm&quot;) </code></pre>
+<ul>
+<li><strong>data:</strong> is where you supply the dataframe to be used
+by the function</li>
+<li><strong>treats:</strong> is the name of the variable that contains
+your treatment conditions.<br />
+This variable must be categorical, and it can be either a string or a
+factor variable.</li>
+<li><strong>DV:</strong>is the variable that you would like to treat as
+your dependent variable.<br />
+This variable must be numeric and it must be either a continous or a
+binary variable (see <strong>model</strong>).</li>
+<li><strong>model:</strong> Specifies the model you wish to run. If the
+<strong>DV</strong> is continuous then specify “linear” in this
+argument, and if the <strong>DV</strong> is binary then specify “logit”
+in this option</li>
+<li><strong>controls:</strong> This argument recieves the variables you
+would like to include in your model as control variables. This argument
+only accepts string vectors, and it can be a single item (for example
+controls=“var1”), or it can be multiple items through concatenation (for
+example controls=c(“var1”, “var2”, “var3”)).</li>
+<li><strong>subgroups:</strong> If left empty (““) the function finds
+the treatment effect for your full sample. But subgroups can be
+specified to find treatment effects within different subgroups. For
+example, if we specify subgroups=”gender”, then the function will
+estimate treatment effects for every category of that subgroup, such as
+“male”, “female”, or “other”. Only one subgroup can be specified at a
+time.</li>
+<li><strong>sims:</strong> This argument accepts the number of
+simulations you would like to perform in clarify’s parametric
+bootstrapping. By default this value is set to 10000 iterations.</li>
+<li><strong>comb:</strong> TreatmentEffects estimates effects comparing
+all treatment effects to the control condition, and comparing treatment
+effects against each other. The <strong>comb</strong> argument can
+accept two values. “perm” can be set if you want all permutations of
+treatment comparisons. “comb” can be set if you only want combination
+comparisons rather than permutation comparisons. By default this
+argument is set to “perm”.</li>
+</ul>
 </div>
 </div>
 

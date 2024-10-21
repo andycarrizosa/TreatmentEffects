@@ -13,7 +13,20 @@ please run the following code in your R console before proceeding:
 
 ```
 install.packages(c("stringr", "Hmisc", "ggplot2", "clarify", "tidyverse", "RColorBrewer","gtools",
-"doParallel", "foreach"))
+"doParallel", "foreach", "remotes"))
+```
+
+## Installing TreatmentEffects
+
+TreatmentEffects can be installed as an R package using the following code:
+```
+library(remotes)
+install_github("https://github.com/andycarrizosa/TreatmentEffects")
+```
+After that first installation it can be loaded as a regular R package for subsequent uses:
+
+```
+library(TreatmentEffects)
 ```
 
 ## Function Arguments
