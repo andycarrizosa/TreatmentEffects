@@ -47,7 +47,7 @@ SimModel<-function(data, reg, treats="", subgroups="",sims=10000, comb="comb"){
         return(boots)
 }
 
-FirstDifference<-function(boots, comb, treats, subgroups){
+FirstDifference<-function(data,boots, comb, treats, subgroups){
         FD<-list()
 
         if(subgroups[1]==""){
@@ -69,7 +69,7 @@ FirstDifference<-function(boots, comb, treats, subgroups){
         }
 
         if(subgroups[1]!=""){
-                sublevel<-data[subgroups] %>% unlist %>% unique
+                sublevel<-data[subgroups] %>% unlist %>% unique %>% gsub(" ", ".",.)
                 for(n in 1:length(sublevel)){
                         levelboots<-select(boots, contains(sublevel[n]))
 
@@ -131,23 +131,23 @@ SummarizeData<-function(FD, treats, DV, subgroups){
                 lowsignif<-(CI85$max<0 | CI85$min>0)
 
         }
-        allest<-rbind(CI95, CI85)
+        clean_df<-rbind(CI95, CI85)
 
         signif<-ifelse(highsignif,
                        "Significant at 95%",
                         ifelse(lowsignif,"Significant at 85%","Not significant"))
 
-        allest$signif_dif<-signif
-        allest$DV<-DV
+        clean_df$signif_dif<-signif
+        clean_df$DV<-DV
 
-        return(allest)
+        return(clean_df)
 }
 
-PlotEffects<-function(allest, treats="", DV="", model=c("linear", "logit"),
+PlotEffects<-function(clean_df, treats="", DV="", model=c("linear", "logit"),
                       controls="",subgroups="",sims=10000){
         if(subgroups[1]==""){
                 #plot
-                gg<-ggplot(allest, aes(x=treat, ymin=min, y=med, ymax=max))+
+                gg<-ggplot(clean_df, aes(x=treat, ymin=min, y=med, ymax=max))+
                         geom_pointrange(lwd=2,size=1,  aes(col=conf, pch=signif_dif))+
                         geom_hline(yintercept=0, col="red", lty=2)+
                         coord_flip()+
@@ -162,11 +162,9 @@ PlotEffects<-function(allest, treats="", DV="", model=c("linear", "logit"),
 
         } else{
 
-                facetform<-as.formula(paste0(".~", subgroups))
-
-                gg<-ggplot(allest, aes(x=treat, ymin=min, y=med, ymax=max))+
+                gg<-ggplot(clean_df, aes(x=treat, ymin=min, y=med, ymax=max))+
                         geom_pointrange(lwd=2,size=1,  aes(col=conf, pch=signif_dif))+
-                        facet_wrap(facetform)+
+                        facet_wrap(.~group)+
                         geom_hline(yintercept=0, col="red", lty=2)+
                         coord_flip()+
                         theme_minimal()+
@@ -183,7 +181,7 @@ PlotEffects<-function(allest, treats="", DV="", model=c("linear", "logit"),
 }
 
 TreatmentEffects<-function(data, treats="", DV="", model=c("linear", "logit"),
-                           controls="",subgroups="",sims=10000, order=FALSE,
+                           controls="",subgroups="",sims=10000,
                            comb="perm"){
         library(stringr)
         library(Hmisc)
@@ -199,13 +197,13 @@ TreatmentEffects<-function(data, treats="", DV="", model=c("linear", "logit"),
         # perform the regression
         reg<-RegModel(data,treats,DV,model,controls,subgroups)
         boots<-SimModel(data, reg, treats, subgroups,sims,comb)
-        FD<-FirstDifference(boots, comb, treats, subgroups)
+        FD<-FirstDifference(data,boots, comb, treats, subgroups)
         clean_df<-SummarizeData(FD, treats, DV, subgroups)
         # plot the results of the simulations
         gg<-PlotEffects(clean_df,treats,DV,model,controls,subgroups,sims)
         #detail specification so people can easily report what they did
         specification<-c("treats", "DV", "model", "controls", "subgroups","sims","function",
-                         treats, DV, model, paste0(controls, collapse=", "), subgroups, sims,"OneClarifyComb") %>% matrix(ncol=2, nrow=8)
+                         treats, DV, model, paste0(controls, collapse=", "), subgroups, sims,"OneClarifyComb") %>% matrix(ncol=2, nrow=7)
         colnames(specification)<-c("argument", "user-specified")
 
         out<-list("reg"=reg, "clean_df"=clean_df, "specification"=specification, "gg"=gg)
@@ -214,3 +212,19 @@ TreatmentEffects<-function(data, treats="", DV="", model=c("linear", "logit"),
 
         return(out)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
