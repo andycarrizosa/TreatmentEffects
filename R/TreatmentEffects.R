@@ -69,9 +69,10 @@ FirstDifference<-function(data,boots, comb, treats, subgroups){
         }
 
         if(subgroups[1]!=""){
-                sublevel<-data[subgroups] %>% unlist %>% unique %>% gsub(" ", ".",.)
+                sublevel<-data[subgroups] %>% unlist %>% unique %>% gsub(" ", ".",.) %>%
+                        gsub("[-]", ".",.) %>% gsub("[+]",".",.)
                 for(n in 1:length(sublevel)){
-                        levelboots<-select(boots, contains(sublevel[n]))
+                        levelboots<-select(boots, contains(sublevel[n],ignore.case=F))
 
                         if(comb=="comb"){
                                 combs<-combinations(n=ncol(levelboots), r=2)
@@ -85,13 +86,13 @@ FirstDifference<-function(data,boots, comb, treats, subgroups){
                                 names(levelFD[[i]])<- paste0(names(levelboots[combs[i,1]]),
                                                                    " - ",
                                                                    names(levelboots[combs[i,2]])) %>%
-                                        gsub(treats, "",.) %>%
-                                        gsub("[.]","",.) %>%
+                                        gsub(treats, "",.)  %>%
                                         gsub(subgroups, "", .) %>%
-                                        gsub(sublevel[n], "",.)
+                                        gsub(sublevel[n], "",.)%>%
+                                        gsub("[.]","",.)
                         }
                         levelFD<-do.call(cbind, levelFD)
-                        names(levelFD)<-paste0(sublevel, ": ",names(levelFD))
+                        names(levelFD)<-paste0(sublevel[n], ": ",names(levelFD))
                         FD[[n]]<-levelFD
                 }
                 FD<-do.call(cbind, FD)
