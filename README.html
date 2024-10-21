@@ -383,7 +383,7 @@ for subsequent uses:</p>
 <h2>Function Arguments</h2>
 <p>TreatmentEffects has the following arguments:</p>
 <pre><code>TreatmentEffects(data, treats = &quot;&quot;, DV = &quot;&quot;, model = c(&quot;linear&quot;, &quot;logit&quot;), 
-controls = &quot;&quot;, subgroups = &quot;&quot;, sims = 10000, comb = &quot;perm&quot;) </code></pre>
+controls = &quot;&quot;, subgroups = &quot;&quot;, sims = 10000, comb = &quot;perm&quot;, clust=1) </code></pre>
 <ul>
 <li><strong>data:</strong> is where you supply the dataframe to be used
 by the function</li>
@@ -421,6 +421,11 @@ accept two values. “perm” can be set if you want all permutations of
 treatment comparisons. “comb” can be set if you only want combination
 comparisons rather than permutation comparisons. By default this
 argument is set to “perm”.</li>
+<li><strong>clust:</strong> clust specifies the number of clusters to
+use for estimation. By default it is set at 1, which means estimations
+will take place by a single cluster. Raising this number can quicken
+estimation, but make sure to not rase this number to higher than the
+total number of threads of your computer.</li>
 </ul>
 </div>
 </div>

@@ -1,6 +1,6 @@
 
-RegModel<-function(data, treats="", DV="", model=c("linear", "logit"),
-                  controls="",subgroups=""){
+RegModel<-function(data, treats, DV, model,
+                  controls,subgroups){
 
     if(controls[1]!=""){
         RHS<-paste0(controls, collapse="+")
@@ -25,7 +25,7 @@ RegModel<-function(data, treats="", DV="", model=c("linear", "logit"),
     return(reg)
 }
 
-SimModel<-function(data, reg, treats="", subgroups="",sims=10000, comb="comb"){
+SimModel<-function(data, reg, treats, subgroups,sims, comb, clust){
         treatlist<-list()
         treatlist[[treats]]<-data[treats] %>% unlist %>% unique
 
@@ -37,13 +37,29 @@ SimModel<-function(data, reg, treats="", subgroups="",sims=10000, comb="comb"){
         }
 
         #Run simulations
-        s<-clarify::sim(reg, n=sims)
-        est <- sim_setx(s, x = treatlist,
-                        verbose = TRUE)
+        if(clust<2){
+                s<-clarify::sim(reg, n=sims)
+                est <- sim_setx(s, x = treatlist,
+                                verbose = TRUE)
+                #get estimated bootstraps
+                boots<-est %>% data.frame
+        }else{
+                cl<-makeCluster(clust)
+                registerDoParallel(cl)
+                options(cores=clust)
 
-        #get estimated bootstraps
-        boots<-est %>% data.frame
-
+                minisims<-sims/clust
+                est<-foreach(i=1:length(clust))%dopar%{
+                        library(clarify)
+                        s<-clarify::sim(reg, n=minisims)
+                        est <- sim_setx(s, x = treatlist,
+                                        verbose = TRUE)
+                        return(est)
+                }
+                boots<-lapply(est, data.frame) %>%
+                        do.call(rbind, .)
+                stopCluster(cl)
+        }
         return(boots)
 }
 
@@ -144,8 +160,8 @@ SummarizeData<-function(FD, treats, DV, subgroups){
         return(clean_df)
 }
 
-PlotEffects<-function(clean_df, treats="", DV="", model=c("linear", "logit"),
-                      controls="",subgroups="",sims=10000){
+PlotEffects<-function(clean_df, treats, DV, model,
+                      controls,subgroups,sims){
         if(subgroups[1]==""){
                 #plot
                 gg<-ggplot(clean_df, aes(x=treat, ymin=min, y=med, ymax=max))+
@@ -183,7 +199,7 @@ PlotEffects<-function(clean_df, treats="", DV="", model=c("linear", "logit"),
 
 TreatmentEffects<-function(data, treats="", DV="", model=c("linear", "logit"),
                            controls="",subgroups="",sims=10000,
-                           comb="perm"){
+                           comb="perm", clust=1){
         library(stringr)
         library(Hmisc)
         library(ggplot2)
@@ -197,7 +213,7 @@ TreatmentEffects<-function(data, treats="", DV="", model=c("linear", "logit"),
         start<-Sys.time()
         # perform the regression
         reg<-RegModel(data,treats,DV,model,controls,subgroups)
-        boots<-SimModel(data, reg, treats, subgroups,sims,comb)
+        boots<-SimModel(data, reg, treats, subgroups,sims,comb, clust)
         FD<-FirstDifference(data,boots, comb, treats, subgroups)
         clean_df<-SummarizeData(FD, treats, DV, subgroups)
         # plot the results of the simulations
@@ -213,19 +229,3 @@ TreatmentEffects<-function(data, treats="", DV="", model=c("linear", "logit"),
 
         return(out)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

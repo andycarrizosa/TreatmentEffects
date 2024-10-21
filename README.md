@@ -35,7 +35,7 @@ TreatmentEffects has the following arguments:
 
 ```
 TreatmentEffects(data, treats = "", DV = "", model = c("linear", "logit"), 
-controls = "", subgroups = "", sims = 10000, comb = "perm") 
+controls = "", subgroups = "", sims = 10000, comb = "perm", clust=1) 
 ```
 
 - **data:** is where you supply the dataframe to be used by the function
@@ -54,6 +54,9 @@ different subgroups.  For example, if we specify subgroups="gender", then the fu
 - **comb:** TreatmentEffects estimates effects comparing all treatment effects to the control condition, and comparing treatment effects against each other.  The **comb**
 argument can accept two values. "perm" can be set if you want all permutations of treatment comparisons.  "comb" can be set if you only want combination comparisons
 rather than permutation comparisons.  By default this argument is set to "perm".
+- **clust:** clust specifies the number of clusters to use for estimation.  By default it is set at 1, which 
+means estimations will take place by a single cluster. Raising this number can quicken estimation, but make sure
+to not rase this number to higher than the total number of threads of your computer.
 
 
 
