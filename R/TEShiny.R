@@ -50,4 +50,4 @@ server <- function(input, output) {
 }
 
 
-shinyApp(ui, server)
+TEShiny<-shinyApp(ui, server)
