@@ -13,7 +13,7 @@ please run the following code in your R console before proceeding:
 
 ```
 install.packages(c("stringr", "Hmisc", "ggplot2", "clarify", "tidyverse", "RColorBrewer","gtools",
-"doParallel", "foreach", "remotes"))
+"doParallel", "foreach", "remotes", "shiny"))
 ```
 
 ## Installing TreatmentEffects

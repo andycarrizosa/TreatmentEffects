@@ -21,7 +21,8 @@ ui <- fluidPage(
     column(width = 5,
            textOutput("text"),
       plotOutput("plot1", height="800px", width="800px"),
-      tableOutput("table")
+      tableOutput("table"),
+      tableOutput("specification")
     )
   )
 )
@@ -31,23 +32,33 @@ server <- function(input, output) {
 
     gg<-eventReactive(input$go, {
            start<-Sys.time()
+
+           # standardize control variables to allow for the inclusion of multiple controls
+           if(str_detect(input$controls, "[,]")){
+                   ctrl<-input$controls %>% strsplit(",") %>%  unlist() %>% trimws
+           }else{
+                   ctrl<-input$controls
+           }
+
            gg<-TreatmentEffects(data=read.csv(input$mydat),
                                         treats=input$treats,
                                         DV=input$DV,
                                         model = input$model,
-                                        controls = input$controls %>% strsplit(",") %>% unlist,
+                                        controls = ctrl,
                                         subgroups = input$subgroups,
                                         sims = input$sims,
                                         comb = input$comb,
                                         clust = input$clust)
+
            end<-Sys.time()
-           gg[[5]]<-paste0("Estimation time= ", round(end-start,3), " seconds")
+           gg[[5]]<-paste0("Time difference of ", round(difftime(end,start, units="secs"),3), " seconds")
            gg
            })
 
   output$plot1<-renderPlot({gg()[[4]]})
   output$table<-renderTable({gg()[[2]]})
   output$text<-renderText({gg()[[5]]})
+  output$specification<-renderTable({gg()[[3]]})
 }
 
 
