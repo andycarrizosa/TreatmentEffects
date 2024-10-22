@@ -19,7 +19,7 @@ ui <- fluidPage(
             )),
     column(width = 5,
            textOutput("text"),
-      plotOutput("plot1"),
+      plotOutput("plot1", height="800px", width="800px"),
       tableOutput("table")
     )
   )
