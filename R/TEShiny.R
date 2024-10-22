@@ -1,6 +1,7 @@
 library(ggplot2)
 library(parallel)
 library(shiny)
+library(tidyverse)
 
 ui <- fluidPage(
   fluidRow(
@@ -34,7 +35,7 @@ server <- function(input, output) {
                                         treats=input$treats,
                                         DV=input$DV,
                                         model = input$model,
-                                        controls = input$controls,
+                                        controls = input$controls %>% strsplit(",") %>% unlist,
                                         subgroups = input$subgroups,
                                         sims = input$sims,
                                         comb = input$comb,
