@@ -1,5 +1,6 @@
 library(ggplot2)
 library(parallel)
+library(shiny)
 
 ui <- fluidPage(
   fluidRow(
