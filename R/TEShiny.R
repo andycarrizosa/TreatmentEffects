@@ -1,5 +1,4 @@
 library(ggplot2)
-library(Cairo)   # For nicer ggplot2 output when deployed on Linux
 library(TreatmentEffects)
 library(parallel)
 
@@ -28,17 +27,17 @@ ui <- fluidPage(
 
 
 server <- function(input, output) {
-        
+
     gg<-eventReactive(input$go, {
            start<-Sys.time()
-           gg<-TreatmentEffects(data=read.csv(input$mydat), 
-                                        treats=input$treats, 
-                                        DV=input$DV, 
-                                        model = input$model, 
-                                        controls = input$controls, 
-                                        subgroups = input$subgroups, 
-                                        sims = input$sims, 
-                                        comb = input$comb, 
+           gg<-TreatmentEffects(data=read.csv(input$mydat),
+                                        treats=input$treats,
+                                        DV=input$DV,
+                                        model = input$model,
+                                        controls = input$controls,
+                                        subgroups = input$subgroups,
+                                        sims = input$sims,
+                                        comb = input$comb,
                                         clust = input$clust)
            end<-Sys.time()
            gg[[5]]<-paste0("Estimation time= ", round(end-start,3), " seconds")
