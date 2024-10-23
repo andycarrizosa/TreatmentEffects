@@ -1,3 +1,9 @@
+library(ggplot2)
+library(parallel)
+library(shiny)
+library(tidyverse)
+library(knitr)
+library(rmarkdown)
 
 ui <- fluidPage(
   fluidRow(
@@ -24,12 +30,6 @@ ui <- fluidPage(
 server <- function(input, output) {
 
         gg<-eventReactive(input$go, {
-                library(ggplot2)
-                library(parallel)
-                library(shiny)
-                library(tidyverse)
-                library(knitr)
-                library(rmarkdown)
                 start<-Sys.time()
                 home<-getwd()
                 setwd(input$dir)
