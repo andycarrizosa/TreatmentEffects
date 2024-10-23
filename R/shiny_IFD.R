@@ -1,5 +1,13 @@
-library(shiny)
+library(stringr)
+library(Hmisc)
+library(ggplot2)
+library(clarify)
 library(tidyverse)
+library(RColorBrewer)
+library(gtools)
+library(doParallel)
+library(foreach)
+library(shiny)
 library(knitr)
 library(rmarkdown)
 
@@ -28,8 +36,16 @@ ui <- fluidPage(
 server <- function(input, output) {
 
         gg<-eventReactive(input$go, {
-                library(shiny)
+                library(stringr)
+                library(Hmisc)
+                library(ggplot2)
+                library(clarify)
                 library(tidyverse)
+                library(RColorBrewer)
+                library(gtools)
+                library(doParallel)
+                library(foreach)
+                library(shiny)
                 library(knitr)
                 library(rmarkdown)
 
