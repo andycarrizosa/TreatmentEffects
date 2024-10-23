@@ -1,10 +1,3 @@
-library(ggplot2)
-library(parallel)
-library(shiny)
-library(tidyverse)
-library(knitr)
-library(rmarkdown)
-
 ui <- fluidPage(
   fluidRow(
     column(width = 4, wellPanel(
@@ -30,13 +23,31 @@ ui <- fluidPage(
 server <- function(input, output) {
 
         gg<-eventReactive(input$go, {
+                library(stringr)
+                library(Hmisc)
+                library(ggplot2)
+                library(clarify)
+                library(tidyverse)
+                library(RColorBrewer)
+                library(gtools)
+                library(doParallel)
+                library(foreach)
+                library(ggplot2)
+                library(parallel)
+                library(shiny)
+                library(tidyverse)
+                library(knitr)
+                library(rmarkdown)
+
                 start<-Sys.time()
                 home<-getwd()
                 setwd(input$dir)
                 if(!any(list.files()=="rmd_IFD.Rmd")){
                         download.file("https://github.com/andycarrizosa/TreatmentEffects/blob/main/R/rmd_IFD.Rmd", destfile="rmd_IFD.Rmd")
-                        rmd<-readLines("rmd_IFD.Rmd")
+                        Sys.sleep(10)
+
                 }
+                rmd<-readLines("rmd_IFD.Rmd")
                 mydata<-read.csv(input$mydata)
                 treatment<-input$treatment
                 sims<-input$sims
@@ -57,6 +68,7 @@ server <- function(input, output) {
                 cat(newrmd, file="newtest.Rmd", sep="\n")
                 render("newtest.Rmd", "html_document")
                 unlink("newtest.Rmd")
+                unlink("rmd_IFD.Rmd")
 
                 end<-Sys.time()
                 setwd(home)
