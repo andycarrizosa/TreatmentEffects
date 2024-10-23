@@ -1,15 +1,3 @@
-library(stringr)
-library(Hmisc)
-library(ggplot2)
-library(clarify)
-library(tidyverse)
-library(RColorBrewer)
-library(gtools)
-library(doParallel)
-library(foreach)
-library(shiny)
-library(knitr)
-library(rmarkdown)
 
 RegModel<-function(data, treats, DV, model,
                   controls,subgroups){
@@ -224,18 +212,6 @@ PlotEffects<-function(clean_df, treats, DV, model,
 TreatmentEffects<-function(data, treats="", DV="", model=c("linear", "logit"),
                            controls="",subgroups="",sims=10000,
                            comb="perm", clust=1){
-        library(stringr)
-        library(Hmisc)
-        library(ggplot2)
-        library(clarify)
-        library(tidyverse)
-        library(RColorBrewer)
-        library(gtools)
-        library(doParallel)
-        library(foreach)
-        library(shiny)
-        library(knitr)
-        library(rmarkdown)
 
         reg<-RegModel(data,treats,DV,model,controls,subgroups) # run the regression model
         boots<-SimModel(data, reg, treats, subgroups,sims,comb, clust) #perform the simulations
