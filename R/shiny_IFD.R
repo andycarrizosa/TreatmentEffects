@@ -54,7 +54,7 @@ server <- function(input, output) {
                 setwd(input$dir)
                 if(!any(list.files()=="rmd_IFD.Rmd")){
                         download.file("https://raw.githubusercontent.com/andycarrizosa/TreatmentEffects/refs/heads/main/R/rmd_IFD.Rmd", destfile="rmd_IFD.Rmd")
-                        Sys.sleep(10)
+                        Sys.sleep(5)
 
                 }
                 rmd<-readLines("rmd_IFD.Rmd")
