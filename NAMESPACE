@@ -1,6 +1,9 @@
 exportPattern("^[[:alpha:]]+")
+import(stringr)
 import(Hmisc)
+import(ggplot2)
 import(clarify)
+import(tidyverse)
 import(RColorBrewer)
 import(gtools)
 import(doParallel)
@@ -9,5 +12,6 @@ import(shiny)
 import(knitr)
 import(rmarkdown)
 import(parallel)
-import(tidyverse)
+import(dplyr)
+
 
