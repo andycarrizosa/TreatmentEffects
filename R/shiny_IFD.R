@@ -31,12 +31,12 @@ server <- function(input, output) {
 
         gg<-eventReactive(input$go, {
                 start<-Sys.time()
-
-                if(!any(ls()=="rmd")){
-                        rmd<-readLines("rmd_IFD.Rmd")
-                }
                 home<-getwd()
                 setwd(input$dir)
+                if(!any(list.files()=="rmd_IFD.Rmd")){
+                        download.file("https://github.com/andycarrizosa/TreatmentEffects/blob/main/R/rmd_IFD.Rmd", destfile="rmd_IFD.Rmd")
+                        rmd<-readLines("rmd_IFD.Rmd")
+                }
                 mydata<-read.csv(input$mydata)
                 treatment<-input$treatment
                 sims<-input$sims
