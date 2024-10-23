@@ -68,7 +68,6 @@ server <- function(input, output) {
                 cat(newrmd, file="newtest.Rmd", sep="\n")
                 render("newtest.Rmd", "html_document")
                 unlink("newtest.Rmd")
-                unlink("rmd_IFD.Rmd")
 
                 end<-Sys.time()
                 setwd(home)
