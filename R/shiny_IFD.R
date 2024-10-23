@@ -1,15 +1,3 @@
-library(stringr)
-library(Hmisc)
-library(ggplot2)
-library(clarify)
-library(tidyverse)
-library(RColorBrewer)
-library(gtools)
-library(doParallel)
-library(foreach)
-library(shiny)
-library(knitr)
-library(rmarkdown)
 
 ui <- fluidPage(
   fluidRow(
@@ -36,19 +24,6 @@ ui <- fluidPage(
 server <- function(input, output) {
 
         gg<-eventReactive(input$go, {
-                library(stringr)
-                library(Hmisc)
-                library(ggplot2)
-                library(clarify)
-                library(tidyverse)
-                library(RColorBrewer)
-                library(gtools)
-                library(doParallel)
-                library(foreach)
-                library(shiny)
-                library(knitr)
-                library(rmarkdown)
-
                 start<-Sys.time()
                 home<-getwd()
                 setwd(input$dir)
