@@ -62,4 +62,4 @@ server <- function(input, output) {
 }
 
 
-TEShiny<-shinyApp(ui, server)
+shiny_TE<-shinyApp(ui, server)

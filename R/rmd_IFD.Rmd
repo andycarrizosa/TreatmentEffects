@@ -1,0 +1,80 @@
+---
+title: "PLACEHOLDER"
+output:
+  html_document:
+    toc: true
+    theme: united
+chunk_output_type: console
+---
+# Continuous Results for Summaries
+
+```{r contresults2, echo = FALSE, message = FALSE,warning=F, fig.width=8,fig.height=6}
+dir.create("./all_outputs", showWarnings=F)
+out<-list()
+x<-1
+for(n in 1:length(subgroups)){
+        for(i in 1:length(contDVs)){
+                
+                out[[x]]<-TreatmentEffects(mydata, treats=treatment, 
+                                DV=contDVs[i], 
+                                model="linear",
+                               controls=covariates,
+                                sims=sims,
+                               subgroups = subgroups[n],
+                               comb="perm",
+                               clust=clust)
+                print(paste0("CONT",subgroups[n], "_", contDVs[i]))
+                print(out[[x]][[4]])
+
+                write.csv(out[[x]][[2]], paste0("./all_outputs/",subgroups[n], "_", contDVs[i], ".csv"))
+                x<-x+1
+                }
+}
+```
+
+# Binary Results for Summaries
+
+```{r binresults, echo = FALSE, message = FALSE,warning=F, fig.width=8,fig.height=6}
+dir.create("./all_outputs", showWarnings=F)
+out<-list()
+x<-1
+for(n in 1:length(subgroups)){
+        for(i in 1:length(binDVs)){
+                
+                out[[x]]<-TreatmentEffects(mydata, 
+                                         treats=treatment, 
+                                DV=binDVs[i], 
+                                model="logit",
+                               controls=covariates,
+                                sims=sims,
+                               subgroups = subgroups[n],
+                               comb="perm",
+                               clust=clust)
+                print(paste0("CONT",subgroups[n], "_", binDVs[i]))
+                print(out[[x]][[4]])
+
+                write.csv(out[[x]][[2]], paste0("./all_outputs/",subgroups[n], "_", binDVs[i], ".csv"))
+                x<-x+1
+                }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
