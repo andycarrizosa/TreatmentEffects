@@ -1,3 +1,8 @@
+library(shiny)
+library(tidyverse)
+library(knitr)
+library(rmarkdown)
+
 ui <- fluidPage(
   fluidRow(
     column(width = 4, wellPanel(
@@ -23,17 +28,6 @@ ui <- fluidPage(
 server <- function(input, output) {
 
         gg<-eventReactive(input$go, {
-                library(stringr)
-                library(Hmisc)
-                library(ggplot2)
-                library(clarify)
-                library(tidyverse)
-                library(RColorBrewer)
-                library(gtools)
-                library(doParallel)
-                library(foreach)
-                library(ggplot2)
-                library(parallel)
                 library(shiny)
                 library(tidyverse)
                 library(knitr)
