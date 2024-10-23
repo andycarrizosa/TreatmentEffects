@@ -10,4 +10,4 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 Imports: stringr, Hmisc, ggplot2, clarify, tidyverse, RColorBrewer, gtools, doParallel, foreach, shiny, knitr, rmarkdown, parallel, dplyr,
-readr, forcats, stringr, tibble, lubridate, tidyr, purrr
+readr, forcats, tibble, lubridate, tidyr, purrr
