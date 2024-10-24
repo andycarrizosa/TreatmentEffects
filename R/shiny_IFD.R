@@ -2,7 +2,7 @@
 ui <- fluidPage(
   fluidRow(
     column(width = 4, wellPanel(
-            textInput("dir", "Directory"),
+            textInput("dir", "Directory(Windows: Replace any \\ with /)"),
             textInput("mydata", "Dataset"),
             textInput("nm", "Title for IFD Report")
             )),
