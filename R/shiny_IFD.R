@@ -50,7 +50,9 @@ server <- function(input, output) {
                 if(length(subgroups)==0) subgroups<-"" else subgroups<-c("", subgroups)
 
                 newrmd<-rmd %>% gsub("PLACEHOLDER", nm,.)
-                cat(newrmd, file="newtest.Rmd", sep="\n")
+                
+                fnm<-paste0(input$nm, ".Rmd") %>% gsub(" ", "_",.)
+                cat(newrmd, file=fnm, sep="\n")
                 render("newtest.Rmd", "html_document")
                 unlink("newtest.Rmd")
 
