@@ -2,7 +2,8 @@
 ui <- fluidPage(
   fluidRow(
     column(width = 4, wellPanel(
-            textInput("mydat", "Data Path"),
+            textInput("dir", "Directory (Windows: Replace any \\ with /)"),
+            textInput("mydat", "Dataset"),
             textInput("DV", "Dependent Variable"),
             textInput("treats", "Treatments"),
             textInput("subgroups", "Subgroups", value=""),
@@ -35,8 +36,8 @@ server <- function(input, output) {
            }else{
                    ctrl<-input$controls
            }
-
-           gg<-TreatmentEffects(data=read.csv(input$mydat),
+           dat<-paste0(input$dir,"/", input$mydat)
+           gg<-TreatmentEffects(data=read.csv(dat),
                                         treats=input$treats,
                                         DV=input$DV,
                                         model = input$model,
