@@ -6,11 +6,11 @@ ui <- fluidPage(
             textInput("mydata", "Dataset"),
             textInput("nm", "Title for IFD Report")
             )),
-    column(width = 4, wellPanel(textInput("contDVs", "Continuous DVs"),
-                                textInput("binDVs", "Binary DVs"),
-                                textInput("covariates", "Controls"),
-                                textInput("subgroups", "Subgroups"),
-                                textInput("treatment", "Treatment"),
+    column(width = 4, wellPanel(textInput("contDVs", "Continuous DVs (comma separated)"),
+                                textInput("binDVs", "Binary DVs (comma separated)"),
+                                textInput("covariates", "Controls (comma separated)"),
+                                textInput("subgroups", "Subgroups (comma separated)"),
+                                textInput("treatment", "Treatment (single value)"),
                                 numericInput("sims", "Simulations", value=1000),
                                 sliderInput("clust", "Clusters", min=1, max=detectCores()-2, value=1, round=TRUE, step=1),
                                 actionButton("go", "Go!")
