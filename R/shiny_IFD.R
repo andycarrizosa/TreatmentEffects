@@ -53,8 +53,8 @@ server <- function(input, output) {
                 
                 fnm<-paste0(input$nm, ".Rmd") %>% gsub(" ", "_",.)
                 cat(newrmd, file=fnm, sep="\n")
-                render("newtest.Rmd", "html_document")
-                unlink("newtest.Rmd")
+                render(fnm, "html_document")
+                unlink(fnm)
 
                 end<-Sys.time()
                 setwd(home)
